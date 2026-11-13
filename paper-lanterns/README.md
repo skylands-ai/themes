@@ -2,6 +2,10 @@
 
 A world of folded paper, lit from inside, at dusk.
 
+```sh
+skylands theme add paper-lanterns
+```
+
 ![An island of folded paper under a lantern citadel, and a terrace of paper buildings ringed by lanterns](preview.png)
 
 | Part | How it looks |
