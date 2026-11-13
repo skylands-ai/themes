@@ -14,9 +14,9 @@ the format.
 
 ## Packs
 
-| Pack | What it looks like | sha256 |
-| --- | --- | --- |
-| [Paper Lanterns](paper-lanterns) | A world of folded paper, lit from inside, at dusk | `e82be35fa89c6e9ebb154962053d780f3eb893174db606a8e62a621f993b96a4` |
+| Pack | Description |
+| --- | --- | 
+| [Paper Lanterns](paper-lanterns) | A world of folded paper, lit from inside, at dusk |
 
 ![Paper Lanterns: an island of folded paper under a lantern citadel, and a terrace of paper buildings ringed by lanterns](paper-lanterns/preview.png)
 
