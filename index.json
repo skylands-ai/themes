@@ -1,0 +1,15 @@
+{
+  "format": 1,
+  "packs": [
+    {
+      "id": "paper-lanterns",
+      "name": "Paper Lanterns",
+      "version": "1.0.0",
+      "description": "A world of folded paper, lit from inside, at dusk.",
+      "author": "Skylands",
+      "license": "Apache-2.0",
+      "sha256": "e82be35fa89c6e9ebb154962053d780f3eb893174db606a8e62a621f993b96a4",
+      "path": "paper-lanterns"
+    }
+  ]
+}

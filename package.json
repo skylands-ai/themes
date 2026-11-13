@@ -1,0 +1,14 @@
+{
+  "name": "skylands-themes",
+  "private": true,
+  "type": "module",
+  "description": "Theme packs for the Skylands 3D world, and the scripts that build their models.",
+  "scripts": {
+    "build": "node paper-lanterns/source/build.mjs paper-lanterns/models.glb",
+    "index": "node tools/index.mjs"
+  },
+  "devDependencies": {
+    "@gltf-transform/core": "^4.2.1",
+    "three": "^0.180.0"
+  }
+}
