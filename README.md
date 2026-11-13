@@ -16,7 +16,7 @@ the format.
 
 | Pack | Description |
 | --- | --- | 
-| `[paper-lanterns]`(paper-lanterns) | A world of folded paper, lit from inside, at dusk |
+| [paper-lanterns](paper-lanterns) | A world of folded paper, lit from inside, at dusk |
 
 ![Paper Lanterns: an island of folded paper under a lantern citadel, and a terrace of paper buildings ringed by lanterns](paper-lanterns/preview.png)
 
