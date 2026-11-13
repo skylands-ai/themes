@@ -1,0 +1,49 @@
+{
+  "$schema": "../schema/theme-1.schema.json",
+  "format": 1,
+  "id": "paper-lanterns",
+  "name": "Paper Lanterns",
+  "version": "1.0.0",
+  "description": "A world of folded paper, lit from inside, at dusk.",
+  "author": "Skylands",
+  "license": "Apache-2.0",
+  "sky": {
+    "top": "#11153a",
+    "horizon": "#4b3a6c",
+    "fog": "#2e2952",
+    "fogNear": 140,
+    "fogFar": 420,
+    "stars": 0.8,
+    "starsAround": false,
+    "clouds": false,
+    "hemiSky": "#d9c7ff",
+    "hemiGround": "#4a3050",
+    "hemiIntensity": 0.75,
+    "sun": "#ffc58a",
+    "sunIntensity": 0.8
+  },
+  "buildings": {
+    "rest": { "color": "#efe6d4", "emissive": "#3a2c1c", "emissiveIntensity": 1 },
+    "read": { "color": "#e3ecf7", "emissive": "#3f6fb0", "emissiveIntensity": 0.6 },
+    "edit": { "color": "#ffe9c2", "emissive": "#d98a1e", "emissiveIntensity": 0.8 },
+    "conflict": { "color": "#f7c9c0", "emissive": "#c43c2e", "emissiveIntensity": 0.85 },
+    "selected": { "color": "#f7fbff", "emissive": "#57d0e6", "emissiveIntensity": 0.5 }
+  },
+  "citadel": { "model": "citadel", "labelY": 12.8, "ringRadius": 10, "beacon": "#ffd27a" },
+  "island": {
+    "models": ["island.sage", "island.peach", "island.lilac"],
+    "scenery": [
+      { "model": "tree", "perRadius": 1.4, "pad": 0.7, "scale": [0.8, 1.3] },
+      { "model": "fold", "perRadius": 0.3, "pad": 1.4, "scale": [0.8, 1.5] },
+      { "model": "pinwheel", "perRadius": 0.3, "pad": 0.6, "scale": [0.9, 1.2] }
+    ]
+  },
+  "ring": { "model": "ring", "spacing": 1.1, "spin": 0.25 },
+  "terrace": { "plaza": "plaza", "post": "post", "postSpacing": 1.2, "postOut": 0.2, "glow": 0.6 },
+  "building": { "model": "building" },
+  "airship": {
+    "model": "crane",
+    "providers": { "codex": "boat", "gemini": "balloon", "goose": "goose", "local": "dart" }
+  },
+  "visitor": { "model": "kite", "path": "glide", "duration": 9 }
+}

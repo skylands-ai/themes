@@ -1,0 +1,576 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/skylands-ai/themes/blob/main/schema/theme-1.schema.json",
+  "title": "Skylands theme pack manifest, format 1",
+  "description": "theme.json for a Skylands theme pack. FORMAT.md describes every field. `skylands theme check` is the final word on what is valid.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "id",
+    "name",
+    "version",
+    "license",
+    "sky",
+    "buildings",
+    "citadel",
+    "island",
+    "ring",
+    "terrace",
+    "building",
+    "airship"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "format": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "minLength": 2,
+      "maxLength": 40,
+      "not": {
+        "enum": [
+          "default",
+          "scifi"
+        ]
+      }
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "author": {
+      "type": "string",
+      "maxLength": 80
+    },
+    "license": {
+      "type": "string",
+      "maxLength": 64,
+      "description": "An SPDX license expression for the models."
+    },
+    "sky": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "top": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "horizon": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "fog": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "fogNear": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1000
+            },
+            "fogFar": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 2000
+            },
+            "stars": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "starsAround": {
+              "type": "boolean"
+            },
+            "clouds": {
+              "type": "boolean"
+            },
+            "hemiSky": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "hemiGround": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "hemiIntensity": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 4
+            },
+            "sun": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "sunIntensity": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 4
+            }
+          },
+          "required": [
+            "top",
+            "horizon",
+            "fog",
+            "fogNear",
+            "fogFar",
+            "stars",
+            "starsAround",
+            "clouds",
+            "hemiSky",
+            "hemiGround",
+            "hemiIntensity",
+            "sun",
+            "sunIntensity"
+          ]
+        }
+      ]
+    },
+    "buildings": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rest": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "color"
+          ],
+          "properties": {
+            "color": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "emissive": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "emissiveIntensity": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 4
+            },
+            "roughness": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "metalness": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "read": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "color"
+          ],
+          "properties": {
+            "color": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "emissive": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "emissiveIntensity": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 4
+            },
+            "roughness": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "metalness": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "edit": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "color"
+          ],
+          "properties": {
+            "color": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "emissive": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "emissiveIntensity": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 4
+            },
+            "roughness": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "metalness": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "conflict": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "color"
+          ],
+          "properties": {
+            "color": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "emissive": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "emissiveIntensity": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 4
+            },
+            "roughness": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "metalness": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "selected": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "color"
+          ],
+          "properties": {
+            "color": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "emissive": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "emissiveIntensity": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 4
+            },
+            "roughness": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "metalness": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        }
+      },
+      "required": [
+        "rest",
+        "read",
+        "edit",
+        "conflict",
+        "selected"
+      ]
+    },
+    "citadel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "model": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "The name of a root node of models.glb's default scene."
+        },
+        "labelY": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 40
+        },
+        "ringRadius": {
+          "type": "number",
+          "minimum": 2,
+          "maximum": 20
+        },
+        "beacon": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        }
+      },
+      "required": [
+        "model",
+        "labelY",
+        "ringRadius",
+        "beacon"
+      ]
+    },
+    "island": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "models": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "description": "The name of a root node of models.glb's default scene."
+          },
+          "minItems": 1,
+          "maxItems": 8
+        },
+        "scenery": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "model": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64,
+                "description": "The name of a root node of models.glb's default scene."
+              },
+              "perRadius": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 4
+              },
+              "pad": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 4
+              },
+              "scale": {
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0.1,
+                  "maximum": 4
+                },
+                "minItems": 2,
+                "maxItems": 2
+              }
+            },
+            "required": [
+              "model",
+              "perRadius",
+              "pad",
+              "scale"
+            ]
+          }
+        }
+      },
+      "required": [
+        "models"
+      ]
+    },
+    "ring": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "model": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "The name of a root node of models.glb's default scene."
+        },
+        "spacing": {
+          "type": "number",
+          "minimum": 0.2,
+          "maximum": 10
+        },
+        "spin": {
+          "type": "number",
+          "minimum": -3,
+          "maximum": 3
+        }
+      },
+      "required": [
+        "model",
+        "spacing",
+        "spin"
+      ]
+    },
+    "terrace": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "plaza": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "The name of a root node of models.glb's default scene."
+        },
+        "post": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "The name of a root node of models.glb's default scene."
+        },
+        "postSpacing": {
+          "type": "number",
+          "minimum": 0.3,
+          "maximum": 10
+        },
+        "postOut": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "glow": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 2
+        }
+      },
+      "required": [
+        "plaza",
+        "post",
+        "postSpacing",
+        "postOut",
+        "glow"
+      ]
+    },
+    "building": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "model": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "The name of a root node of models.glb's default scene."
+        }
+      },
+      "required": [
+        "model"
+      ]
+    },
+    "airship": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "model": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "The name of a root node of models.glb's default scene."
+        },
+        "providers": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "claude": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "description": "The name of a root node of models.glb's default scene."
+            },
+            "codex": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "description": "The name of a root node of models.glb's default scene."
+            },
+            "gemini": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "description": "The name of a root node of models.glb's default scene."
+            },
+            "goose": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "description": "The name of a root node of models.glb's default scene."
+            },
+            "local": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "description": "The name of a root node of models.glb's default scene."
+            }
+          },
+          "required": []
+        }
+      },
+      "required": [
+        "model"
+      ]
+    },
+    "visitor": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "model": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "The name of a root node of models.glb's default scene."
+        },
+        "path": {
+          "enum": [
+            "glide"
+          ]
+        },
+        "duration": {
+          "type": "number",
+          "minimum": 2,
+          "maximum": 30
+        }
+      },
+      "required": [
+        "model",
+        "path",
+        "duration"
+      ]
+    }
+  }
+}

@@ -1,0 +1,60 @@
+name: Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  packs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+      # The checker is the one every citadel runs. A skylands built by go
+      # install has no web client, which theme check doesn't need.
+      - name: Install skylands
+        run: go install github.com/skylands-ai/skylands/cmd/skylands@main
+      # Each pack is checked as a citadel checks it, and must be listed in
+      # index.json under the sha256 skylands finds, which is what
+      # "skylands theme add <id>" will insist its download has.
+      - name: Check every pack
+        run: |
+          status=0
+          for manifest in */theme.json; do
+            dir=$(dirname "$manifest")
+            echo "::group::$dir"
+            if out=$(skylands theme check "$dir"); then
+              echo "$out"
+              have=$(echo "$out" | sed -n 's/^sha256 //p')
+              listed=$(jq -r --arg dir "$dir" '.packs[] | select(.path == $dir) | .sha256' index.json)
+              if [ "$have" != "$listed" ]; then
+                echo "::error file=index.json::$dir is listed with sha256 '$listed', but its files have $have; run npm run index"
+                status=1
+              fi
+            else
+              status=1
+            fi
+            echo "::endgroup::"
+          done
+          exit $status
+
+  models:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Models built from code must be what their code builds, and the
+      # index must list every pack as it is.
+      - run: npm run build
+      - run: npm run index
+      - run: git diff --exit-code -- '*.glb' index.json
