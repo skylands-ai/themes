@@ -4,7 +4,7 @@
   "type": "module",
   "description": "Theme packs for the Skylands 3D world, and the scripts that build their models.",
   "scripts": {
-    "build": "node paper-lanterns/source/build.mjs paper-lanterns/models.glb",
+    "build": "node paper-lanterns/source/build.mjs paper-lanterns/models.glb && node winter/source/build.mjs winter/models.glb",
     "index": "node tools/index.mjs"
   },
   "devDependencies": {

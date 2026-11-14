@@ -17,8 +17,11 @@ the format.
 | Pack | Description |
 | --- | --- | 
 | [paper-lanterns](paper-lanterns) | A world of folded paper, lit from inside, at dusk |
+| [winter](winter) | A snowy world at blue hour: a ski mountain, ice rinks ringed by candy canes and lights, and snowman dirigibles |
 
 ![Paper Lanterns: an island of folded paper under a lantern citadel, and a terrace of paper buildings ringed by lanterns](paper-lanterns/preview.png)
+
+![Winter: a snowy island under a ski-mountain citadel, and an ice rink ringed by candy canes strung with lights](winter/preview.png)
 
 ## Adding a pack to your world
 

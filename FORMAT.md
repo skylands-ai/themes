@@ -66,10 +66,27 @@ more than the world draws. Colors are `#rrggbb`.
 | `citadel` | The citadel's `model`, how high over its origin its label floats (`labelY`), the radius of its selection ring (`ringRadius`, 2 to 20), and the color of its beacon's light (`beacon`) |
 | `island` | One to eight `models`, one picked for each island, and up to eight kinds of `scenery` |
 | `ring` | The piece repeated round a selection ring (`model`), about `spacing` apart, and how fast the ring turns (`spin`, in radians a second) |
-| `terrace` | The terrace's `plaza` and the `post` repeated round it, about `postSpacing` apart and `postOut` outside the plaza's edge, and how brightly its `repo-glow` material glows at rest (`glow`) |
+| `terrace` | The terrace's `plaza` and the `post` repeated round it, about `postSpacing` apart and `postOut` outside the plaza's edge, and how brightly its `repo-glow` material glows at rest (`glow`). Optionally a `rope` from each post to the next, as [Ropes](#ropes) describes |
 | `building` | The `model` of one file's building |
 | `airship` | The `model` every agent's airship is drawn with, and optionally one per provider (`claude`, `codex`, `gemini`, `goose`, `local`) in `providers` |
 | `visitor` | Optional: what crosses the sky now and then (`model`), along which `path` (`glide`), in how many seconds (`duration`, 2 to 30) |
+
+### Ropes
+
+A terrace's `rope` is drawn by the world, from each post to the next all
+the way round, corners included:
+
+```json
+"rope": { "at": [0, 0.82, 0.09], "sag": 0.3, "radius": 0.01, "material": "wire", "bead": { "model": "bulb", "spacing": 0.12 } }
+```
+
+| Field | What it is |
+| --- | --- |
+| `at` | Where the rope meets each post, `[x, y, z]` in the post's own space: x and z from -2 to 2, y from 0 to 4 |
+| `sag` | How far, from 0 to 2, the middle of each span hangs below a straight line between its posts |
+| `radius` | How thick the rope is, from 0.002 to 0.2 |
+| `material` | The name of a material a model in the scene uses, which the rope is drawn in. A rope in `repo-glow` glows in the repo's color, as the default theme's does |
+| `bead` | Optional: a `model` strung along the rope about `spacing` apart, from 0.1 to 10 |
 
 ## models.glb
 
@@ -90,6 +107,7 @@ an airship is about 2 long.
 | Ring piece | Drawn at its origin with +x pointing out from the ring's center. The world repeats it round the ring, turns the ring, and shows it only while what it rings is selected. A ring piece can't be clicked |
 | Plaza | A unit square, x and z from -0.5 to 0.5, with its top at y = 0.35, where buildings stand. The world stretches x and z to the terrace's size |
 | Post | Stands at its origin, on the island, with +x pointing out from the plaza |
+| Bead | Hangs at its origin on a rope, upright, with +z along the rope. At most 64 triangles. The world strings them evenly along each span, none on a post, and draws a terrace's beads all at once |
 | Building | One mesh of one material: a unit block, -0.5 to 0.5 on each axis, which the world stretches to its lot, 0.7 wide, and to a height from the file's size, and dresses in the `buildings` materials. A child named `cap` is drawn for a unit footprint with its base at y = 0; the world stands it on the roof and keeps its proportions. Other children stretch with the block |
 | Airship | Faces +x, with its underside, where a beam drops from while it waits on a person, at y = -0.6. Parts: up to four `bag`s, hung one per quarter of the agent's context used |
 | Visitor | Faces +z, the way it moves |
@@ -110,7 +128,7 @@ The world plays, looping, every animation clip that moves only nodes inside
 one model, on each copy of that model, starting copies at different points
 so they don't move in step. Clips move translation, rotation, and scale.
 They play on the citadel, islands, scenery, ring pieces, posts, airships,
-and the visitor; not on plazas or buildings. Nothing moves for a person who
+and the visitor; not on plazas, buildings, or beads. Nothing moves for a person who
 asked for reduced motion.
 
 ### Color and shading

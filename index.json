@@ -10,6 +10,16 @@
       "license": "Apache-2.0",
       "sha256": "e82be35fa89c6e9ebb154962053d780f3eb893174db606a8e62a621f993b96a4",
       "path": "paper-lanterns"
+    },
+    {
+      "id": "winter",
+      "name": "Winter",
+      "version": "1.0.0",
+      "description": "A snowy world at blue hour: a ski mountain, ice rinks ringed by candy canes and lights, and snowman dirigibles.",
+      "author": "Skylands",
+      "license": "Apache-2.0",
+      "sha256": "139a842408f4e5510f0f374cac0350989cd3d6d8111ccc67e3c4dadaf8a0ef5d",
+      "path": "winter"
     }
   ]
 }

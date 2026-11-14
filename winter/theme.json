@@ -1,0 +1,57 @@
+{
+  "$schema": "../schema/theme-1.schema.json",
+  "format": 1,
+  "id": "winter",
+  "name": "Winter",
+  "version": "1.0.0",
+  "description": "A snowy world at blue hour: a ski mountain, ice rinks ringed by candy canes and lights, and snowman dirigibles.",
+  "author": "Skylands",
+  "license": "Apache-2.0",
+  "sky": {
+    "top": "#1d3159",
+    "horizon": "#9fb6d9",
+    "fog": "#90a7ca",
+    "fogNear": 150,
+    "fogFar": 440,
+    "stars": 0.55,
+    "starsAround": false,
+    "clouds": true,
+    "hemiSky": "#e2ecff",
+    "hemiGround": "#56658a",
+    "hemiIntensity": 0.62,
+    "sun": "#ffe1c2",
+    "sunIntensity": 0.62
+  },
+  "buildings": {
+    "rest": { "color": "#ece3d3", "emissive": "#3b2a1a", "emissiveIntensity": 0.8 },
+    "read": { "color": "#dcebfa", "emissive": "#3f78c0", "emissiveIntensity": 0.65 },
+    "edit": { "color": "#ffe6bd", "emissive": "#e08a1c", "emissiveIntensity": 0.85 },
+    "conflict": { "color": "#f6c3bd", "emissive": "#c8352b", "emissiveIntensity": 0.9 },
+    "selected": { "color": "#f5fbff", "emissive": "#5fd3ea", "emissiveIntensity": 0.55 }
+  },
+  "citadel": { "model": "citadel", "labelY": 14.4, "ringRadius": 10, "beacon": "#ffd36b" },
+  "island": {
+    "models": ["island.frost", "island.moss", "island.straw"],
+    "scenery": [
+      { "model": "pine", "perRadius": 2.0, "pad": 0.7, "scale": [0.7, 1.3] },
+      { "model": "drift", "perRadius": 0.4, "pad": 0.9, "scale": [0.7, 1.4] },
+      { "model": "boulder", "perRadius": 0.25, "pad": 0.6, "scale": [0.7, 1.3] },
+      { "model": "snowman", "perRadius": 0.12, "pad": 0.5, "scale": [0.9, 1.15] }
+    ]
+  },
+  "ring": { "model": "ring", "spacing": 1.0, "spin": 0.25 },
+  "terrace": {
+    "plaza": "plaza",
+    "post": "post",
+    "postSpacing": 0.95,
+    "postOut": 0.225,
+    "glow": 0.85,
+    "rope": { "at": [0, 0.82, 0.09], "sag": 0.3, "radius": 0.009, "material": "wire", "bead": { "model": "bulb", "spacing": 0.12 } }
+  },
+  "building": { "model": "building" },
+  "airship": {
+    "model": "dirigible.tophat",
+    "providers": { "codex": "dirigible.beanie", "gemini": "dirigible.pail", "goose": "dirigible.stocking", "local": "dirigible.earmuffs" }
+  },
+  "visitor": { "model": "sleigh", "path": "glide", "duration": 10 }
+}
