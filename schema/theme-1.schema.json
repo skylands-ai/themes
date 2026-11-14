@@ -468,6 +468,68 @@
           "type": "number",
           "minimum": 0,
           "maximum": 2
+        },
+        "rope": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "What the world hangs from each post to the next, round the terrace.",
+          "properties": {
+            "at": {
+              "type": "array",
+              "description": "Where the rope meets each post, [x, y, z] in the post's own space.",
+              "prefixItems": [
+                { "type": "number", "minimum": -2, "maximum": 2 },
+                { "type": "number", "minimum": 0, "maximum": 4 },
+                { "type": "number", "minimum": -2, "maximum": 2 }
+              ],
+              "items": false,
+              "minItems": 3
+            },
+            "sag": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 2,
+              "description": "How far the middle of each span hangs below a straight line between its posts."
+            },
+            "radius": {
+              "type": "number",
+              "minimum": 0.002,
+              "maximum": 0.2
+            },
+            "material": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "description": "The name of a material a model in models.glb's default scene uses."
+            },
+            "bead": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "model": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "description": "The name of a root node of models.glb's default scene, of at most 64 triangles."
+                },
+                "spacing": {
+                  "type": "number",
+                  "minimum": 0.1,
+                  "maximum": 10
+                }
+              },
+              "required": [
+                "model",
+                "spacing"
+              ]
+            }
+          },
+          "required": [
+            "at",
+            "sag",
+            "radius",
+            "material"
+          ]
         }
       },
       "required": [
