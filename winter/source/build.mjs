@@ -11,7 +11,7 @@
 import { writeFile } from 'node:fs/promises'
 import { Document, NodeIO } from '@gltf-transform/core'
 import * as THREE from 'three'
-import { mergeGeometries, mergeVertices } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
 
 const out = process.argv[2] ?? 'models.glb'
 
@@ -277,7 +277,39 @@ function starGeometry(outer, inner, thick) {
 
 // ---- writing ---------------------------------------------------------------
 
+// Every number written is rounded to a millionth first. Math.hypot and
+// fractional powers can differ in their last bit between Node versions and
+// machines, and CI checks that models.glb is exactly what this script
+// builds; rounded, it is the same wherever it is built. Adding 0 makes -0 0.
+const q = (v) => Math.round(v * 1e6) / 1e6 + 0
+const qs = (list) => Array.from(list, q)
+
 let triangles = 0
+
+/**
+ * Positions rounded, with each corner shared by faces written once, and the
+ * index of each face's corners in them. With no normals the faces still
+ * draw flat.
+ */
+function weld(geo) {
+  const pos = geo.getAttribute('position')
+  const seen = new Map()
+  const corners = []
+  const index = []
+  for (let i = 0; i < geo.index.count; i++) {
+    const v = geo.index.getX(i)
+    const p = [q(pos.getX(v)), q(pos.getY(v)), q(pos.getZ(v))]
+    const key = p.join(',')
+    let n = seen.get(key)
+    if (n === undefined) {
+      n = corners.length / 3
+      seen.set(key, n)
+      corners.push(...p)
+    }
+    index.push(n)
+  }
+  return { corners, index }
+}
 
 /** A glTF mesh with one primitive per material, each from the geometries given for it. */
 function mesh(name, parts) {
@@ -285,22 +317,21 @@ function mesh(name, parts) {
   for (const [mat, list] of parts) {
     const geos = list.filter(Boolean)
     if (!geos.length) continue
-    // Corners shared by faces are written once; with no normals the faces still draw flat.
-    const g = mergeVertices(mergeGeometries(geos.map((x) => prep(x.index ? x.toNonIndexed() : x))))
-    const pos = doc.createAccessor().setType('VEC3').setArray(new Float32Array(g.getAttribute('position').array)).setBuffer(buffer)
-    const n = g.getAttribute('position').count
-    const idx = doc.createAccessor().setType('SCALAR').setArray(n < 65536 ? new Uint16Array(g.index.array) : new Uint32Array(g.index.array)).setBuffer(buffer)
+    const { corners, index } = weld(mergeGeometries(geos.map((x) => prep(x.index ? x.toNonIndexed() : x))))
+    const pos = doc.createAccessor().setType('VEC3').setArray(new Float32Array(corners)).setBuffer(buffer)
+    const n = corners.length / 3
+    const idx = doc.createAccessor().setType('SCALAR').setArray(n < 65536 ? new Uint16Array(index) : new Uint32Array(index)).setBuffer(buffer)
     m.addPrimitive(doc.createPrimitive().setAttribute('POSITION', pos).setIndices(idx).setMaterial(mat))
-    triangles += g.index.count / 3
+    triangles += index.length / 3
   }
   return m
 }
 
 function node(name, { mesh: m, at = [0, 0, 0], rot, scale, children = [] } = {}) {
-  const n = doc.createNode(name).setTranslation(at)
+  const n = doc.createNode(name).setTranslation(qs(at))
   if (m) n.setMesh(m)
-  if (rot) n.setRotation(rot)
-  if (scale) n.setScale(scale)
+  if (rot) n.setRotation(qs(rot))
+  if (scale) n.setScale(qs(scale))
   for (const c of children) n.addChild(c)
   return n
 }
@@ -327,11 +358,11 @@ function track(target, path, value, steps = 24) {
   for (let i = 0; i <= steps; i++) {
     const v = value(i / steps)
     if (path === 'rotation') {
-      const q = new THREE.Quaternion().setFromEuler(v)
+      const turn = new THREE.Quaternion().setFromEuler(v)
       // Each turn takes the short way from the one before.
-      if (last && last.dot(q) < 0) q.set(-q.x, -q.y, -q.z, -q.w)
-      last = q
-      values.push(q.x, q.y, q.z, q.w)
+      if (last && last.dot(turn) < 0) turn.set(-turn.x, -turn.y, -turn.z, -turn.w)
+      last = turn
+      values.push(turn.x, turn.y, turn.z, turn.w)
     } else values.push(...v)
   }
   return { target, path, values, steps }
@@ -342,11 +373,11 @@ function clip(name, seconds, ...tracks) {
   const anim = doc.createAnimation(name)
   for (const tr of tracks) {
     const times = Array.from({ length: tr.steps + 1 }, (_, i) => (i / tr.steps) * seconds)
-    const input = doc.createAccessor().setType('SCALAR').setArray(new Float32Array(times)).setBuffer(buffer)
+    const input = doc.createAccessor().setType('SCALAR').setArray(new Float32Array(qs(times))).setBuffer(buffer)
     const output = doc
       .createAccessor()
       .setType(tr.path === 'rotation' ? 'VEC4' : 'VEC3')
-      .setArray(new Float32Array(tr.values))
+      .setArray(new Float32Array(qs(tr.values)))
       .setBuffer(buffer)
     const sampler = doc.createAnimationSampler().setInput(input).setOutput(output).setInterpolation('LINEAR')
     anim.addSampler(sampler).addChannel(doc.createAnimationChannel().setTargetNode(tr.target).setTargetPath(tr.path).setSampler(sampler))
